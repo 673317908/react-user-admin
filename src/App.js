@@ -14,8 +14,8 @@ class App extends React.Component {
     return (
       <HashRouter>
         <Switch>
-          <Route exact component={Index} path="/"></Route>
-          <Route component={Login} path="/login"></Route>
+          <Route exact component={Login} path="/"></Route>
+          <Route component={Index} path="/index"></Route>
         </Switch>
       </HashRouter>
     )

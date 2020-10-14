@@ -4,11 +4,11 @@ const {
 } = require('http-proxy-middleware');
 
 module.exports = function (app) {
-    app.use(createProxyMiddleware("/api", {
+    app.use(createProxyMiddleware([process.env.REACT_APP_API], {
         target: "http://www.web-jshtml.cn/api/react",
         changeOrigin: true,
         pathRewrite: {
-            "^/api": ""
+            [`^${process.env.REACT_APP_API}`]: ""
         }
     }))
     // app.use(proxy("/message/api",{

@@ -17,3 +17,12 @@ export function Login(data) {
         data
     })
 }
+
+// 注册
+export function Register(data){
+    return service.request({
+        url:"/register/",
+        method:"POST",
+        data
+    })
+}

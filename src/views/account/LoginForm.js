@@ -1,18 +1,22 @@
 import React, { Component } from 'react';
-import { Form, Input, Button, Row, Col,message } from 'antd';
+import { Form, Input, Button, Row, Col, message } from 'antd';
 import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
 
 // 验证
-import { validate_password } from "../../utils/validate"
+import { validate_password, validate_email } from "../../utils/validate"
 
 //api
-import { Login,getSms } from "../../api/account"
+import { Login } from "../../api/account"
+
+// 组件
+import Code from "./component/Code"
 
 export default class LoginForm extends Component {
     constructor() {
         super()
         this.state = {
-            email: "",
+            username: "",
+            module:"login",
             btnText: "获取验证码",
             btnStatus: false
         }
@@ -28,8 +32,13 @@ export default class LoginForm extends Component {
                     }}
                     onFinish={this.onFinish}
                 >
-                    <Form.Item name="username" rules={[{ required: true, message: '请输入邮箱!', type: 'email' }]}>
-                        <Input value={this.state.email} onChange={this.emailInput} prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email" />
+                    <Form.Item name="username" rules={
+                        [
+                            { required: true, message: '请输入邮箱!' },
+                            { pattern: validate_email, message: "邮箱格式不正确!" }
+                        ]
+                    }>
+                        <Input value={this.state.username} onChange={this.usernameInput} prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
                     </Form.Item>
                     <Form.Item name="password" rules={
                         [
@@ -46,9 +55,7 @@ export default class LoginForm extends Component {
                                 <Input prefix={<MailOutlined className="site-form-item-icon" />} placeholder="Code" />
                             </Col>
                             <Col span={9}>
-                                <Button type="danger" className="login-form-button" block onClick={() => this.getCode()} loading={this.state.btnStatus}>
-                                    {this.state.btnText}
-                                </Button>
+                                <Code username={this.state.username} module={this.state.module} />
                             </Col>
                         </Row>
                     </Form.Item>
@@ -61,58 +68,16 @@ export default class LoginForm extends Component {
             </div>
         );
     }
-    emailInput = (event) => {
+    usernameInput = (event) => {
         this.setState({
-            email: event.target.value
-        })
-    }
-    timeDown(value) {
-        if (this.getCodeTime) {
-            clearInterval(this.getCodeTime)
-        }
-
-        this.getCodeTime = setInterval(() => {
-            value--
-            this.setState({
-                btnText: value + 's',
-                btnStatus: true
-            })
-
-            if (value === 0) {
-                clearInterval(this.getCodeTime)
-                this.setState({
-                    btnText: '重新发送',
-                    btnStatus: false
-                })
-            }
-        }, 1000)
-    }
-    getCode = () => {
-        if(!this.state.email){
-            message.warning('邮箱不能为空',1);
-            return false
-        }
-        let setData={username:this.state.email,module:"login"}
-        this.setState({
-            btnText: "发送中",
-            btnStatus: true
-        })
-        getSms(setData).then(res=>{
-            console.log(res)
-            if(res.resCode===1002){
-                message.error(res.data.message,1);
-                return false
-            }
-            message.success(res.data.message,1);
-            this.timeDown(3)
+            username: event.target.value
         })
     }
     onFinish = (values) => {
-        this.setState({
-            form: values
-        })
-        Login().then(res => {
+        let setData={username:values.username,password:values.password,code:values.code}
+        Login(setData).then(res => {
             console.log(res)
+            message.success(res.data.message,1)
         })
     }
 }

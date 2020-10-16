@@ -1,2 +1,10 @@
 @import "./reset.scss";
 $loginColor:#001529;
+
+@mixin webkit($attr,$value) {
+    -webkit-#{$attr}: $value;
+    -moz-#{$attr}: $value;
+    -ms-#{$attr}: $value;
+    -o-#{$attr}: $value;
+    #{$attr}: $value;
+}

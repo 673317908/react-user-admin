@@ -104,9 +104,12 @@ export default class RegisterForm extends Component {
         })
     }
     onFinish = (values) => {
-        let setData={username:values.username,password:values.password,code:values.code}
+        let setData = { username: values.username, password: values.password, code: values.code }
         Register(setData).then(res => {
-            message.success(res.data.message,1)
+            message.success(res.data.message, 1)
+            if(res.data.resCode===0){
+                this.props.activeTab(0)
+            }
         })
     }
 }

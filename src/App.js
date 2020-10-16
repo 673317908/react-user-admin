@@ -3,7 +3,7 @@ import { HashRouter, Switch, Route } from "react-router-dom"
 import './App.scss';
 
 import Login from "./views/account/login"
-import Index from "./views/home/index"
+import Home from "./views/home/index"
 
 class App extends React.Component {
   constructor(props) {
@@ -15,7 +15,7 @@ class App extends React.Component {
       <HashRouter>
         <Switch>
           <Route exact component={Login} path="/"></Route>
-          <Route component={Index} path="/index"></Route>
+          <Route component={Home} path="/home"></Route>
         </Switch>
       </HashRouter>
     )

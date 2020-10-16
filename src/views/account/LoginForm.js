@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
+import { withRouter } from "react-router-dom"
 import { Form, Input, Button, Row, Col, message } from 'antd';
 import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
 
 // 验证
 import { validate_password, validate_email } from "../../utils/validate"
+
+// 存储
+import { setInfo } from "../../utils/storage"
 
 //api
 import { Login } from "../../api/account"
@@ -11,13 +15,12 @@ import { Login } from "../../api/account"
 // 组件
 import Code from "./component/Code"
 
-export default class LoginForm extends Component {
+class LoginForm extends Component {
     constructor() {
         super()
         this.state = {
             username: "",
-            module:"login",
-            btnText: "获取验证码",
+            module: "login",
             btnStatus: false
         }
     }
@@ -60,7 +63,7 @@ export default class LoginForm extends Component {
                         </Row>
                     </Form.Item>
                     <Form.Item>
-                        <Button type="primary" htmlType="submit" className="login-form-button" block>
+                        <Button type="primary" htmlType="submit" className="login-form-button" block loading={this.state.btnStatus}>
                             登录
                     </Button>
                     </Form.Item>
@@ -74,10 +77,24 @@ export default class LoginForm extends Component {
         })
     }
     onFinish = (values) => {
-        let setData={username:values.username,password:values.password,code:values.code}
+        let setData = { username: values.username, password: values.password, code: values.code }
+        this.setState({
+            btnStatus: true
+        })
         Login(setData).then(res => {
-            console.log(res)
-            message.success(res.data.message,1)
+            message.success(res.data.message, 1)
+            let token=res.data.data.token
+            let username=res.data.data.username
+            setInfo("user_token",token)
+            setInfo("user_name",username)
+            if (res.data.resCode === 0) {
+                this.setState({
+                    btnStatus: false
+                })
+                this.props.history.push("/home")
+            }
         })
     }
 }
+
+export default withRouter(LoginForm)

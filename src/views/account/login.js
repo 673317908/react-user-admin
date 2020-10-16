@@ -48,7 +48,7 @@ export default class Login extends Component {
                             </ul>
                         </div>
                         <div className="login_info_form">
-                            {this.state.formType === "Login" ? <LoginForm data={this.state.formType}></LoginForm> : <RegisterForm></RegisterForm>}
+                            {this.state.formType === "Login" ? <LoginForm></LoginForm> : <RegisterForm activeTab={this.activeTab}></RegisterForm>}
                         </div>
                     </div>
                 </div>

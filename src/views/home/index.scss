@@ -1,0 +1,18 @@
+.layout_warp {
+    height: 100vh;
+}
+
+.layout_sider {
+    width: 250px;
+}
+
+.layout_header {
+    z-index: 2;
+    background-color: white;
+    @include webkit(box-shadow, 0 3px 16px 0 rgba(0, 0, 0, .1))
+}
+
+.layout_content {
+    padding: 30px;
+    border: 30px solid #dddddd;
+}

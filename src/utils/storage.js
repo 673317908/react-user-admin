@@ -3,5 +3,5 @@ export function setInfo(name, value) {
 }
 
 export function getInfo(value) {
-    sessionStorage.setItem(value)
+   return sessionStorage.getItem(value)
 }

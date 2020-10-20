@@ -9,14 +9,16 @@ import "./index.scss"
 
 // 组件
 import Aside from "./components/Aside"
+import LayoutMain from "./components/LayoutMain"
 
+import { setInfo, getInfo } from "../../utils/storage"
 const { Header, Sider, Content } = Layout;
 
 export default class Index extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            collapsed: false
+            collapsed: getInfo("collapsed") || false
         }
     }
     render() {
@@ -33,20 +35,24 @@ export default class Index extends Component {
                                 onClick: this.toggle,
                             })}
                         </Header>
-                        <Content className="layout_content">Content</Content>
+                        <Content className="layout_content">
+                            <LayoutMain></LayoutMain>
+                        </Content>
                     </Layout>
                 </Layout>
             </Fragment>
         )
     }
     toggle = () => {
+        setInfo("collapsed", !this.state.collapsed)
         this.setState({
             collapsed: !this.state.collapsed
         })
     }
     onCollapse = collapsed => {
-        this.setState({ 
+        setInfo("collapsed", !this.state.collapsed)
+        this.setState({
             collapsed: !this.state.collapsed
         });
-      };
+    };
 }

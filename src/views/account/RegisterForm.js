@@ -9,7 +9,7 @@ import { validate_username, validate_pass } from "../../utils/validate"
 import Code from "./component/Code"
 
 // api
-import { Register } from "../../api/account"
+import { Register } from "@api/account"
 
 export default class RegisterForm extends Component {
     constructor(props) {

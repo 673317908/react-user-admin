@@ -3,9 +3,9 @@ import { Menu } from 'antd';
 import { Link, withRouter } from "react-router-dom"
 
 // 样式
-import "../../views/home/components/Aside.scss"
+import "@/views/home/components/Aside.scss"
 // 路由
-import Router from "../../router/index"
+import Router from "@/router/index"
 const { SubMenu } = Menu;
 class Aside extends Component {
     constructor(props) {
@@ -51,7 +51,6 @@ class Aside extends Component {
     }
 
     activeMenu = (e) => {
-        console.log(e)
         const pathname = e.key
         const muenName = pathname.split("/").slice(0, 3).join("/")
         const muenData = {

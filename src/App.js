@@ -2,8 +2,8 @@ import React from 'react';
 import { HashRouter, Switch, Route } from "react-router-dom"
 import './App.scss';
 
-import Login from "./views/account/login"
-import Home from "./views/home/index"
+import Login from "./views/account/Login"
+import Home from "./views/home/Index"
 
 // 私有组件
 import PrivateRouter from "./components/privateRouter/index"

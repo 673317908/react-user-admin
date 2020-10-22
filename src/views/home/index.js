@@ -9,7 +9,7 @@ import "./index.scss"
 
 // 组件
 import Aside from "./components/Aside"
-import LayoutMain from "./components/LayoutMain"
+import LayoutMain from "@c/main/LayoutMain"
 
 import { setInfo, getInfo } from "../../utils/storage"
 const { Header, Sider, Content } = Layout;

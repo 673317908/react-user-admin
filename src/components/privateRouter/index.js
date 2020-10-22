@@ -1,6 +1,6 @@
 import React from "react";
 import { Route,Redirect } from "react-router-dom";
-import { getInfo } from "../../utils/storage"
+import { getInfo } from "@/utils/storage"
 const PrivateRouter = ({ component: Component, ...rest }) => {
     return (
         <Route

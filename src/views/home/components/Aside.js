@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 // 路由菜单
-import RouterMenu from "../../../components/menu/index"
+import RouterMenu from "@c/menu/index"
 // 样式
 import "./Aside.scss"
 class Aside extends Component {

@@ -10,7 +10,7 @@ import { validate_password, validate_email } from "../../utils/validate"
 import { setInfo } from "../../utils/storage"
 
 //api
-import { Login } from "../../api/account"
+import { Login } from "@api/account"
 
 // 组件
 import Code from "./component/Code"

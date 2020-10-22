@@ -289,6 +289,9 @@ module.exports = function (webpackEnv) {
         .map(ext => `.${ext}`)
         .filter(ext => useTypeScript || !ext.includes('ts')),
       alias: {
+        '@': path.resolve('src'),
+        '@c': path.resolve('src/components'),
+        '@api': path.resolve('src/api'),
         // Support React Native Web
         // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
         'react-native': 'react-native-web',
@@ -382,7 +385,7 @@ module.exports = function (webpackEnv) {
                       },
                     },
                   ],
-                  [  "import", { libraryName: "antd", style: "css" } ]
+                  ["import", { libraryName: "antd", style: "css" }]
                 ],
                 // This is a feature of `babel-loader` for webpack (not Babel itself).
                 // It enables caching results in ./node_modules/.cache/babel-loader/

@@ -26,3 +26,12 @@ export function deleteDepartmentApi(data) {
         data
     })
 }
+
+// 部门禁启用
+export function editDepartmentStatusApi(data) {
+    return service.request({
+        url: "/department/status/",
+        method: "POST",
+        data
+    })
+}

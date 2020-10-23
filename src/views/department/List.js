@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { Form, Input, Button, Table, Pagination, Space, Switch, message, Popconfirm } from "antd"
-import { getDepartmentApi, deleteDepartmentApi } from "@api/department"
+import { getDepartmentApi, deleteDepartmentApi, editDepartmentStatusApi } from "@api/department"
 import "./list.scss"
 class DepartmentList extends Component {
     constructor(props) {
@@ -10,7 +10,7 @@ class DepartmentList extends Component {
                 { title: "部门名称", dataIndex: "name", key: "name" },
                 {
                     title: "禁启用", dataIndex: "status", key: "status", render: (text, rowData) => {
-                        return <Switch checkedChildren="开启" unCheckedChildren="关闭" defaultChecked={rowData.status === "1" ? true : false} />
+                        return <Switch onChange={() => this.onChange(rowData)} checkedChildren="开启" unCheckedChildren="关闭" defaultChecked={rowData.status === "1" ? true : false} />
                     }
                 },
                 { title: "人数", dataIndex: "number", key: "number" },
@@ -81,6 +81,16 @@ class DepartmentList extends Component {
         // }
     }
 
+    // 状态
+    onChange = (rowData) => {
+        const { id, status } = rowData
+        const statusData = { id, status: status === 1 ? true : false }
+        editDepartmentStatusApi(statusData).then(res => {
+            message.info(res.data.message)
+            this.getList()
+        })
+    }
+
     // 获取列表数据
     getList = () => {
         const setData = { pageNumber: this.state.pageNumber, pageSize: this.state.pageSize }
@@ -104,6 +114,15 @@ class DepartmentList extends Component {
         this.getList()
     }
 
+    // 分页
+    changePage = (page, pageSize) => {
+        this.setState({
+            pageNumber: page,
+            pageSize
+        })
+        this.getList()
+    }
+
     render() {
         const { columns, dataSource, total } = this.state
         const rowSelection = {
@@ -123,7 +142,7 @@ class DepartmentList extends Component {
                 </div>
                 <Table rowSelection={{ ...rowSelection }} rowKey="id" columns={columns} dataSource={dataSource} bordered className="list_table" pagination={false}></Table>
                 <Button onClick={this.batchDel}>批量删除</Button>
-                <Pagination total={total} showSizeChanger className="list_pag"></Pagination>
+                <Pagination total={total} showSizeChanger className="list_pag" onChange={this.changePage}></Pagination>
             </Fragment>
         );
     }

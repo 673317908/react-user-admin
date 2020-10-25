@@ -35,3 +35,12 @@ export function editDepartmentStatusApi(data) {
         data
     })
 }
+
+// 部门详情
+export function getDepartmentDetailApi(data) {
+    return service.request({
+        url: "/department/detailed/",
+        method: "POST",
+        data
+    })
+}

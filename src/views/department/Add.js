@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Form, Input, InputNumber, Radio, message } from "antd"
-import { addDepartmentApi } from "@api/department"
+import { addDepartmentApi, getDepartmentDetailApi } from "@api/department"
+
 class DepartmentAdd extends Component {
     constructor(props) {
         super(props)
@@ -12,7 +13,13 @@ class DepartmentAdd extends Component {
             loading: false
         }
     }
-    // formRef = React.createRef();
+
+    componentDidMount() {
+        if (this.props.location.state.id !== '') {
+            this.editDepartment()
+        }
+    }
+
     addDepartment = (values) => {
         this.setState({
             loading: true
@@ -22,6 +29,18 @@ class DepartmentAdd extends Component {
             this.refs.form.resetFields();
             this.setState({
                 loading: false
+            })
+        })
+    }
+
+    editDepartment = (values) => {
+        getDepartmentDetailApi({ id: this.state.editId }).then(res => {
+            let data = res.data.data
+            this.refs.form.setFieldsValue({
+                name: data.name,
+                number: data.number,
+                status: data.status,
+                content: data.content
             })
         })
     }

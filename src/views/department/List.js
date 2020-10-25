@@ -37,7 +37,13 @@ class DepartmentList extends Component {
             pageSize: 10,
             total: 0,
             selectArr: [],
-            searchKey: ""
+            searchKey: "",
+            visible: false,
+            formLabel: {
+                labelCol: { span: 4 },
+                wrapperCol: { span: 19 }
+            },
+            editId: "",
         }
     }
     componentDidMount() {
@@ -52,8 +58,8 @@ class DepartmentList extends Component {
     }
 
     // 编辑
-    editItem = (text) => {
-        console.log(text)
+    editItem = (record) => {
+        this.props.history.push({ pathname: "/home/department/add", state: { id: record.id } })
     }
 
     // 删除
@@ -84,8 +90,9 @@ class DepartmentList extends Component {
     // 状态
     onChange = (rowData) => {
         const { id, status } = rowData
-        const statusData = { id, status: status === 1 ? true : false }
+        const statusData = { id, status: status === "1" ? false : true }
         editDepartmentStatusApi(statusData).then(res => {
+            console.log(res)
             message.info(res.data.message)
             this.getList()
         })
@@ -97,6 +104,7 @@ class DepartmentList extends Component {
         const { searchKey } = this.state
         if (searchKey) { setData.name = searchKey }
         getDepartmentApi(setData).then(res => {
+            console.log(res)
             this.setState({
                 total: res.data.data.total,
                 dataSource: res.data.data.data

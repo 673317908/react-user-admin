@@ -44,3 +44,11 @@ export function getDepartmentDetailApi(data) {
         data
     })
 }
+//编辑详情
+export function editDepartmentDetailApi(data) {
+    return service.request({
+        url: "/department/edit/",
+        method: "POST",
+        data
+    })
+}

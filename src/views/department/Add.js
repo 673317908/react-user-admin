@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Form, Input, InputNumber, Radio, message } from "antd"
-import { addDepartmentApi, getDepartmentDetailApi } from "@api/department"
+import { addDepartmentApi, getDepartmentDetailApi, editDepartmentDetailApi } from "@api/department"
 
 class DepartmentAdd extends Component {
     constructor(props) {
@@ -15,7 +15,7 @@ class DepartmentAdd extends Component {
     }
 
     componentDidMount() {
-        if (this.props.location.state.id !== '') {
+        if (this.props.location.state) {
             this.editDepartment()
         }
     }
@@ -24,17 +24,30 @@ class DepartmentAdd extends Component {
         this.setState({
             loading: true
         })
-        addDepartmentApi(values).then(res => {
-            message.info(res.data.message)
-            this.refs.form.resetFields();
-            this.setState({
-                loading: false
+        if (this.props.location.state) {
+            values.id = +this.props.location.state.id
+            editDepartmentDetailApi(values).then(res => {
+                message.info(res.data.message)
+                this.refs.form.resetFields();
+                this.setState({
+                    loading: false
+                })
+                this.props.history.push("/home/department/list")
             })
-        })
+        } else {
+            addDepartmentApi(values).then(res => {
+                message.info(res.data.message)
+                this.refs.form.resetFields();
+                this.setState({
+                    loading: false
+                })
+                this.props.history.push("/home/department/list")
+            })
+        }
     }
 
     editDepartment = (values) => {
-        getDepartmentDetailApi({ id: this.state.editId }).then(res => {
+        getDepartmentDetailApi({ id: this.props.location.state.id }).then(res => {
             let data = res.data.data
             this.refs.form.setFieldsValue({
                 name: data.name,
@@ -64,7 +77,7 @@ class DepartmentAdd extends Component {
                         <Input.TextArea></Input.TextArea>
                     </Form.Item>
                     <Form.Item label="">
-                        <Button type="primary" htmlType="submit" loading={this.state.loading}>添加</Button>
+                        <Button type="primary" htmlType="submit" loading={this.state.loading}>{this.props.location.state ? '编辑' : '添加'}</Button>
                     </Form.Item>
                 </Form>
             </div>

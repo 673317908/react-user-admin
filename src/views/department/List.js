@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import { Form, Input, Button, Table, Pagination, Space, Switch, message, Popconfirm } from "antd"
 import { getDepartmentApi, deleteDepartmentApi, editDepartmentStatusApi } from "@api/department"
-import "./list.scss"
+
+import "./list.scss";
 class DepartmentList extends Component {
     constructor(props) {
         super(props)
@@ -76,15 +77,13 @@ class DepartmentList extends Component {
 
     batchDel = () => {
         const { selectArr } = this.state
-        // if (selectArr !== []) {
-        //     let data = {}
-        //     selectArr.forEach(item => {
-        //         data.id = item
-        //     })
-        //     deleteDepartmentApi({id:data}).then(res => {
-        //         console.log(res)
-        //     })
-        // }
+        if (selectArr.length !== 0) {
+            let id = selectArr.join()
+            deleteDepartmentApi({ id }).then(res => {
+                message.info(res.data.message)
+                this.getList()
+            })
+        }
     }
 
     // 状态
@@ -124,11 +123,14 @@ class DepartmentList extends Component {
 
     // 分页
     changePage = (page, pageSize) => {
+        console.log(page)
+        // console.log(pageSize)
         this.setState({
-            pageNumber: page,
+            pageNumber: page === 0 ? 1 : page,
             pageSize
+        }, () => {
+            this.getList()
         })
-        this.getList()
     }
 
     render() {

@@ -14,22 +14,11 @@ export default class Login extends Component {
             activeIndex: 0
         }
     }
-    getCode = (values) => {
-        console.log(values)
-        console.log(22)
-    }
+
     activeTab = (values) => {
-        if (values === 0) {
-            this.setState({
-                formType: "Login"
-            })
-        } else {
-            this.setState({
-                formType: "RegisterFrom"
-            })
-        }
         this.setState({
-            activeIndex: values
+            activeIndex: values,
+            formType: values === 0 ? "Login" : "RegisterFrom"
         })
     }
     render() {
